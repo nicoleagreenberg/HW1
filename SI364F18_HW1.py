@@ -21,7 +21,7 @@ app.debug = True
 
 @app.route('/')
 def hello_to_you():
-    return 'Welcome to SI 364!'
+	return 'Welcome to SI 364!'
 
 
 
@@ -44,8 +44,6 @@ def get_stuff(moviename):
 	python_obj = json.loads(text)
 	return str(python_obj)
 
-if __name__ == '__main__':
-    app.run()
 
 ## You should use the iTunes Search API to get that data.
 ## Docs for that API are here: https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/
@@ -55,18 +53,26 @@ if __name__ == '__main__':
 
 ## [PROBLEM 3] - 250 points
 
-# <form>
-#   First name:<br>
-#   <input type="text" name="number"><br>
-# </form>
+@app.route('/form')
+def formView():
+	html_form = '''
+	<html>
+	<body>
+	<form method ="GET" action ="http://localhost:5000/result"> 
+		Enter your favorite number : 
+		<input type='text' name="Enter your favorite number"></input>
+		<input type = 'submit' name = 'submit'></input>
+	</form>
+	</body>
+	</html>
+	'''
+	return html_form
 
-# <form action="/action_page.php">
-#   First name:<br>
-#   <input type="text" name="firstname" value="Mickey"><br>
-#   Last name:<br>
-#   <input type="text" name="lastname" value="Mouse"><br><br>
-#   <input type="submit" value="Submit">
-# </form>
+if __name__ == '__main__':
+	app.run()
+
+
+
 
 ## Edit the above Flask application code so that if you run the application locally and got to the URL http://localhost:5000/question, 
 #you see a form that asks you to enter your favorite number.
