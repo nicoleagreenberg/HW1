@@ -6,15 +6,18 @@
 
 
 ## List below here, in a comment/comments, the people you worked with on this assignment AND any resources you used to find code (50 point deduction for not doing so). If none, write "None".
-#I worked with Nicole Ackerman-Greenberg
+# I worked with Sam Lu
+# I used code from Challenges.py from discussion 
 
 
 ## [PROBLEM 1] - 150 points
 ## Below is code for one of the simplest possible Flask applications. Edit the code so that once you run this application locally and go to the URL 'http://localhost:5000/class', you see a page that says "Welcome to SI 364!"
 
-from flask import Flask
+#from flask import Flask
 import requests 
 import json 
+
+from flask import Flask, request
 
 app = Flask(__name__)
 app.debug = True
@@ -35,7 +38,7 @@ def hello_to_you():
 # }
 
 @app.route('/movie/<moviename>')
-def get_stuff(moviename):
+def get_movie(moviename):
 	base_url = "https://itunes.apple.com/search"
 	params_diction = {}
 	params_diction['term'] = moviename
@@ -54,13 +57,13 @@ def get_stuff(moviename):
 ## [PROBLEM 3] - 250 points
 
 @app.route('/form')
-def formView():
+def question():
 	html_form = '''
 	<html>
 	<body>
-	<form method ="GET" action ="http://localhost:5000/result"> 
+	<form method ="GET" action ="/result"> 
 		Enter your favorite number : 
-		<input type='text' name="Enter your favorite number"></input>
+		<input type='text' name="number"></input>
 		<input type = 'submit' name = 'submit'></input>
 	</form>
 	</body>
@@ -68,10 +71,18 @@ def formView():
 	'''
 	return html_form
 
+@app.route('/result', methods = ['GET', 'POST'])
+def result_doubled():
+	if request.method == 'GET':
+		number = str(request.args.get("number"))
+	int_number = int(number)
+	doubled = int_number*2
+	response_string = "Double your favorite number is " + str(doubled)
+	return response_string
+
+
 if __name__ == '__main__':
 	app.run()
-
-
 
 
 ## Edit the above Flask application code so that if you run the application locally and got to the URL http://localhost:5000/question, 
@@ -84,7 +95,8 @@ if __name__ == '__main__':
 
 ## [PROBLEM 4] - 350 points
 
-## Come up with your own interactive data exchange that you want to see happen dynamically in the Flask application, and build it into the above code for a Flask application, following a few requirements.
+## Come up with your own interactive data exchange that you want to see happen dynamically in the Flask application, 
+#and build it into the above code for a Flask application, following a few requirements.
 
 ## You should create a form that appears at the route: http://localhost:5000/problem4form
 
