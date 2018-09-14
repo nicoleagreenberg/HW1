@@ -81,8 +81,6 @@ def result_doubled():
 	return response_string
 
 
-if __name__ == '__main__':
-	app.run()
 
 
 ## Edit the above Flask application code so that if you run the application locally and got to the URL http://localhost:5000/question, 
@@ -100,16 +98,58 @@ if __name__ == '__main__':
 
 ## You should create a form that appears at the route: http://localhost:5000/problem4form
 
+@app.route('/problem4form', methods = ['GET', 'POST'])
+def get_synopsis():
+	html_form2 = '''
+	<html>
+	<body>
+	<form method ="POST" action ="/problem4form"> 
+		Enter a movie title:
+		<input type='text' name="title"></input>
+		<br>Do you want the IMBD or Rotten Tomatoes rating? </br>
+		<input type='radio' name="Ratingsystem" value="IMDB">IMDB</input>
+		<input type='radio' name="Ratingsystem" value="RottenTomatoes">Rotten Tomatoes</input>
+		<input type = 'submit' name = 'submit'></input>
+	</form>
+	</body>
+	</html>
+	'''
+	
+	APIKEY = "3fb83d44"
+	if request.method == 'POST':             
+		rating = request.form.get('Ratingsystem')
+		title = request.form.get("title")
+		baseurl = "http://www.omdbapi.com/"
+		response = requests.get(baseurl, params={'apikey' : APIKEY, 't': title})
+		omdb_data = json.loads(response.text)
+		
+		if rating == "IMDB":
+			return "The IMDB rating of " + title + " is " + (omdb_data['Ratings'][0]['Value'])
+		if rating == 'RottenTomatoes':
+			return "The Rotten Tomatoes rating of " + title + " is " + (omdb_data['Ratings'][1]['Value'])
+
+
+	return html_form2
+
+if __name__ == '__main__':
+	app.run()
+
 ## Submitting the form should result in your seeing the results of the form on the same page.
 
 ## What you do for this problem should:
 # - not be an exact repeat of something you did in class
 # - must include an HTML form with checkboxes and text entry
-# - should, on submission of data to the HTML form, show new data that depends upon the data entered into the submission form and is readable by humans (more readable than e.g. the data you got in Problem 2 of this HW). The new data should be gathered via API request or BeautifulSoup.
+# - should, on submission of data to the HTML form, show new data that depends upon the data entered into the 
+#submission form and is readable by humans (more readable than e.g. the data you got in Problem 2 of this HW). 
+#The new data should be gathered via API request or BeautifulSoup.
 
 # You should feel free to be creative and do something fun for you --
-# And use this opportunity to make sure you understand these steps: if you think going slowly and carefully writing out steps for a simpler data transaction, like Problem 1, will help build your understanding, you should definitely try that!
+# And use this opportunity to make sure you understand these steps: if you think going slowly and carefully writing 
+#out steps for a simpler data transaction, like Problem 1, will help build your understanding, you should definitely try that!
 
-# You can assume that a user will give you the type of input/response you expect in your form; you do not need to handle errors or user confusion. (e.g. if your form asks for a name, you can assume a user will type a reasonable name; if your form asks for a number, you can assume a user will type a reasonable number; if your form asks the user to select a checkbox, you can assume they will do that.)
+# You can assume that a user will give you the type of input/response you expect in your form; you do not need to handle errors 
+#or user confusion. (e.g. if your form asks for a name, you can assume a user will type a reasonable name; if your form asks for 
+#a number, you can assume a user will type a reasonable number; if your form asks the user to select a checkbox, you can assume 
+#they will do that.)
 
 # Points will be assigned for each specification in the problem.
