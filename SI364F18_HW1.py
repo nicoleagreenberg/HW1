@@ -104,11 +104,11 @@ def get_synopsis():
 	<html>
 	<body>
 	<form method ="POST" action ="/problem4form"> 
-		Enter a movie title:
+		<label>Enter a movie title:</label><br>
 		<input type='text' name="title"></input>
 		<br>Do you want the IMBD or Rotten Tomatoes rating? </br>
-		<input type='radio' name="Ratingsystem" value="IMDB">IMDB</input>
-		<input type='radio' name="Ratingsystem" value="RottenTomatoes">Rotten Tomatoes</input>
+		<input type='radio' name="Ratingsystem" value="IMDB">IMDB</input><br>
+		<input type='radio' name="Ratingsystem" value="RottenTomatoes">Rotten Tomatoes</input><br>
 		<input type = 'submit' name = 'submit'></input>
 	</form>
 	</body>
